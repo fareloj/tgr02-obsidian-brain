@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/* ===================== Slate & Sky — Design Tokens ===================== */
+@theme {
+  --color-surface: #fbf9f8;
+  --color-surface-dim: #ede9e7;
+  --color-surface-bright: #ffffff;
+
+  --color-container-lowest: #ffffff;
+  --color-container-low: #f6f4f3;
+  --color-container: #f0eeec;
+  --color-container-high: #e9e6e4;
+  --color-container-highest: #e2dfdd;
+
+  --color-on-surface: #2a2c2c;
+  --color-on-surface-variant: #5e5f60;
+
+  --color-outline: #83837f;
+  --color-outline-variant: #c9c6c3;
+
+  --color-inverse-surface: #161616;
+  --color-inverse-on-surface: #e9e7e6;
+
+  --color-primary: #585e6c;
+  --color-primary-hover: #494f5c;
+  --color-on-primary: #f7f7ff;
+  --color-primary-container: #dde2f2;
+  --color-on-primary-container: #3f4554;
+
+  --color-tertiary: #5e5c78;
+  --color-tertiary-container: #dad7f8;
+  --color-on-tertiary-container: #42415c;
+
+  --color-error: #9f403d;
+
+  --font-headline: var(--font-inter), sans-serif;
+  --font-ui: var(--font-inter), sans-serif;
+  --font-body: var(--font-serif), Georgia, serif;
+  --font-label: var(--font-anybody), var(--font-inter), sans-serif;
+
+  --radius: 1rem;
+  --radius-md: 1.5rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
+}
+
+/* ===================== Base ===================== */
+:root { color-scheme: light; }
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.ic { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ic svg { width: 100%; height: 100%; display: block; }
+
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d8d4d1; border-radius: 99px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: #bcb8b4; background-clip: content-box; }
+* { scrollbar-width: thin; scrollbar-color: #d8d4d1 transparent; }
+
+/* ===================== Animations ===================== */
+@keyframes rise { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes pop { from { transform: translateY(8px) scale(.985); opacity: 0; } to { transform: none; opacity: 1; } }
+.rise { animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+
+@keyframes emptyOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-18px) scale(.975); } }
+@keyframes convIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.empty-exit { animation: emptyOut .32s cubic-bezier(.4,0,1,1) both; pointer-events: none; }
+.conv-in { animation: convIn .5s cubic-bezier(.2,.7,.2,1) both; }
+
+@keyframes viewIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.view-enter { animation: viewIn .42s cubic-bezier(.2,.7,.2,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .pop, .empty-exit, .conv-in, .view-enter { animation: none !important; transform: none !important; }
+}
+
+@keyframes blink { 0%, 80%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: #585e6c; display: inline-block; animation: blink 1.3s infinite both; }
+.dot:nth-child(2) { animation-delay: .18s; }
+.dot:nth-child(3) { animation-delay: .36s; }
+
+/* ===================== Component states ===================== */
+textarea::placeholder { color: #9a9794; }
+textarea.bare { scrollbar-width: none; }
+textarea.bare::-webkit-scrollbar { display: none; }
+
+.suggest { transition: transform .22s cubic-bezier(.2,.7,.2,1), border-color .22s ease, background .22s ease, box-shadow .22s ease; }
+.suggest:hover { border-color: #585e6c; background: #ffffff; transform: translateY(-2px); box-shadow: 0 12px 30px -16px rgba(40,44,44,.28); }
+
+.nav-item { position: relative; color: #5e5f60; transition: background-color .15s ease, color .15s ease; }
+.nav-item .bar { position: absolute; left: -8px; top: 50%; transform: translateY(-50%) scaleY(0); width: 3px; height: 18px; border-radius: 99px; background: #585e6c; transition: transform .2s ease; }
+.nav-item:hover { background-color: rgba(233,230,228,.7); color: #2a2c2c; }
+.nav-item.active, .nav-item.active:hover { background-color: #dde2f2; color: #3f4554; font-weight: 500; }
+.nav-item.active .bar { transform: translateY(-50%) scaleY(1); }
+.nav-item.active .ic { color: #585e6c; }
+
+.card { transition: transform .22s cubic-bezier(.2,.7,.2,1), border-color .22s ease, box-shadow .22s ease; }
+.card:hover { transform: translateY(-3px); border-color: #b6b3af; box-shadow: 0 16px 40px -22px rgba(40,44,44,.34); }
+.row { transition: background-color .15s ease; }
+.row:hover { background-color: rgba(255,255,255,.75); }
+.row .row-actions { opacity: 0; transition: opacity .15s ease; }
+.row:hover .row-actions { opacity: 1; }
+
+.chip { transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
+.chip-filter.active { background-color: #585e6c; color: #f7f7ff; border-color: #585e6c; }
+
+.toggle { width: 42px; height: 24px; border-radius: 99px; background: #c9c6c3; position: relative; transition: background-color .2s ease; flex-shrink: 0; cursor: pointer; border: none; }
+.toggle::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .2s cubic-bezier(.2,.7,.2,1); box-shadow: 0 1px 3px rgba(0,0,0,.22); }
+.toggle.on { background: #585e6c; }
+.toggle.on::after { transform: translateX(18px); }
+
+.seg { transition: color .15s ease; }
+.seg.active { background: #ffffff; color: #2a2c2c; box-shadow: 0 1px 3px rgba(40,44,44,.16); }
+
+.scope-menu { transition: opacity .16s ease, transform .16s ease; transform-origin: bottom left; }
+.scope-menu.menu-hidden { opacity: 0; transform: translateY(8px) scale(.97); pointer-events: none; }
+
+.progress > i { display: block; height: 100%; border-radius: 99px; background: #585e6c; }

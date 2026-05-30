@@ -1,0 +1,22 @@
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+python-dotenv==1.0.1
+pydantic==2.10.3
+
+# Vector DB
+chromadb==0.5.23
+
+# Embeddings
+sentence-transformers==3.3.1
+
+# LLM
+openai==1.58.1
+httpx==0.28.1
+
+# Obsidian watcher
+watchdog==6.0.0
+
+# Utils
+python-multipart==0.0.20
+aiofiles==24.1.0
+tiktoken==0.8.0
