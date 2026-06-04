@@ -1,0 +1,3 @@
+## 2024-06-04 - Documentation Scope Constraints
+**Insight:** A documentação e os readmes não devem inventar artefatos se eles não existem no código base atual (por exemplo, imagens não fornecidas, ou pastas de assets inexistentes não devem ser forjadas para satisfazer uma sessão visual do readme).
+**Action:** Ao adicionar seções como `Screenshots` em arquivos README, verifique explicitamente se os recursos da imagem já foram comitados. Se não, omita a seção. Não crie uma nova pasta de screenshots apenas para injetar arquivos que você não verificou como nativos da base original ou arquivos anexados, mas observe as regras rigorosamente.
