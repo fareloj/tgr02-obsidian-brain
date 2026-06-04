@@ -23,7 +23,7 @@ O **VaultMind** é um aplicativo desktop que conecta suas notas do Obsidian a um
 
 | Explorar Vault | Notas Recentes | Projetos |
 |:-:|:-:|:-:|
-| ![Explorar Vault](https://github.com/user-attachments/assets/f87feb11-4dcf-4917-8a0e-adb911b6cf84) | ![Notas Recentes](https://github.com/user-attachments/assets/39fc23e5-93ab-41d5-be1b-946bed163e83) | ![Projetos](https://github.com/user-attachments/assets/b6c0cb8a-4f95-490c-b8bf-e62c20546dc2) |
+| ![Explorar Vault](https://raw.githubusercontent.com/fareloj/tgr02-obsidian-brain/master/frontend/app/interface-chatbot.png) | ![Notas Recentes](https://raw.githubusercontent.com/fareloj/tgr02-obsidian-brain/master/frontend/app/notas-recentes-tudo-o-que-voce-capturou-no-vault.png) | ![Projetos](https://raw.githubusercontent.com/fareloj/tgr02-obsidian-brain/master/frontend/app/aba-de-projetos.png) |
 
 ---
 
