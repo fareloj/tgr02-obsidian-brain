@@ -4,7 +4,7 @@
 
 O **VaultMind** é um aplicativo desktop que conecta suas notas do Obsidian a uma inteligência artificial que entende seu contexto. Usando um backend FastAPI com ChromaDB e um frontend em Next.js empacotado com Electron, o VaultMind permite buscar, conversar e explorar os seus próprios arquivos — tudo rodando localmente.
 
-<img width="1381" height="832" alt="VaultMind" src="https://github.com/user-attachments/assets/0c0f06b2-5a87-4086-9e92-c0d39bdda678" />
+<img width="1381" height="832" alt="VaultMind" src="frontend/app/interface-chatbot.png" />
 
 ---
 
@@ -23,7 +23,7 @@ O **VaultMind** é um aplicativo desktop que conecta suas notas do Obsidian a um
 
 | Explorar Vault | Notas Recentes | Projetos |
 |:-:|:-:|:-:|
-| ![Explorar Vault](https://raw.githubusercontent.com/fareloj/tgr02-obsidian-brain/master/frontend/app/interface-chatbot.png) | ![Notas Recentes](https://raw.githubusercontent.com/fareloj/tgr02-obsidian-brain/master/frontend/app/notas-recentes-tudo-o-que-voce-capturou-no-vault.png) | ![Projetos](frontend/app/aba-de-projetos.png) |
+| ![Explorar Vault](frontend/app/interface-chatbot.png) | ![Notas Recentes](https://raw.githubusercontent.com/fareloj/tgr02-obsidian-brain/master/frontend/app/notas-recentes-tudo-o-que-voce-capturou-no-vault.png) | ![Projetos](frontend/app/aba-de-projetos.png) |
 
 ---
 
