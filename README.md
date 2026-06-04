@@ -2,87 +2,111 @@
 
 > Seu segundo cérebro inteligente, conectado ao seu Obsidian.
 
-O **VaultMind** é um aplicativo que conecta suas notas do Obsidian a uma inteligência artificial que entende seu contexto. Usando um backend FastAPI com ChromaDB e um frontend rápido em Next.js, o VaultMind permite buscar, conversar e explorar os seus próprios arquivos.
+O **VaultMind** é um aplicativo desktop que conecta suas notas do Obsidian a uma inteligência artificial que entende seu contexto. Usando um backend FastAPI com ChromaDB e um frontend em Next.js empacotado com Electron, o VaultMind permite buscar, conversar e explorar os seus próprios arquivos — tudo rodando localmente.
 
-<img width="1381" height="832" alt="image" src="https://github.com/user-attachments/assets/0c0f06b2-5a87-4086-9e92-c0d39bdda678" />
+<img width="1381" height="832" alt="VaultMind" src="https://github.com/user-attachments/assets/0c0f06b2-5a87-4086-9e92-c0d39bdda678" />
 
 ---
 
 ## Funcionalidades
 
-- **Integração com Obsidian:** Monitora e indexa seu Vault do Obsidian automaticamente.
-- **Chat Contextual:** Converse com o modelo sobre as suas anotações com respostas baseadas nos seus próprios dados.
-- **Busca Rápida:** Encontre notas facilmente apertando `⌘K` / `Ctrl+K`.
-- **Navegação Intuitiva:** Visualize anotações, conversas e projetos através de uma interface desenhada com Tailwind CSS.
+- **Integração com Obsidian:** Monitora e indexa seu Vault automaticamente em tempo real via watchdog.
+- **Chat Contextual com RAG:** Converse com o Gemini 3.5 Flash sobre as suas anotações — respostas baseadas nos seus próprios dados com citações `[[Nota]]`.
+- **Busca Semântica:** Encontre notas por significado, não por palavras-chave exatas.
+- **App Desktop:** Empacotado com Electron — abre backend e frontend com um clique.
+- **Modo Pensamento Profundo:** Análise mais densa de conexões e padrões entre notas.
+- **Memória de Conversas:** Histórico persistente de todas as suas sessões.
+
+---
+
+## Screenshots
+
+| Explorar Vault | Notas Recentes | Projetos |
+|:-:|:-:|:-:|
+| ![Chat](<!-- SCREENSHOT_CHAT_URL -->) | ![Notas](<!-- SCREENSHOT_NOTAS_URL -->) | ![Projetos](<!-- SCREENSHOT_PROJETOS_URL -->) |
 
 ---
 
 ## Tech Stack
 
+### Desktop
+- **Electron** v33 — empacota o app e orquestra backend + frontend
+
 ### Frontend
 - **Framework:** Next.js 16 (React 19)
-- **Estilização:** Tailwind CSS (v4)
+- **Estilização:** Tailwind CSS v4 — design system *Slate & Sky*
 - **Gerenciador de Pacotes:** `pnpm`
 
 ### Backend
-- **Framework API:** FastAPI (`uvicorn` / `python`)
-- **Banco de Dados Vetorial:** ChromaDB
-- **Embeddings:** `sentence-transformers`
-- **Integração de LLM:** OpenAI / OpenRouter
+- **Framework API:** FastAPI + Uvicorn
+- **Banco de Dados Vetorial:** ChromaDB (local)
+- **Embeddings:** `sentence-transformers` (`all-MiniLM-L6-v2`) — GPU via CUDA
+- **LLM:** Google Gemini 3.5 Flash (via Google AI Studio)
 - **Monitoramento de Arquivos:** `watchdog`
 
 ---
 
 ## Getting Started
 
-Siga as instruções abaixo para configurar o ambiente de desenvolvimento na sua máquina.
-
 ### Pré-requisitos
-- [Node.js](https://nodejs.org/) (v20+)
-- [pnpm](https://pnpm.io/) (v9+)
-- [Python](https://www.python.org/) (v3.10+)
+- [Node.js](https://nodejs.org/) v20+
+- [pnpm](https://pnpm.io/) v9+
+- [Python](https://www.python.org/) v3.10+
+- Chave de API do [Google AI Studio](https://aistudio.google.com/)
 
-### Configuração (Variáveis de Ambiente)
+### Configuração do Backend
 
-No diretório `backend`, crie um arquivo `.env` baseando-se no `.env.example`:
+```bash
+cd backend
+pip install -r requirements.txt
+cp .env.example .env   # edite com sua chave
+```
 
-| Variável | Descrição | Exemplo de Placeholder |
-| -------- | --------- | ---------------------- |
-| `OPENROUTER_API_KEY` | Chave de API para o OpenRouter. | `sk-or-your-api-key-here` |
-| `OPENROUTER_BASE_URL`| URL base da API. | `https://openrouter.ai/api/v1` |
-| `LLM_MODEL` | Modelo a ser utilizado (ex: Llama 3). | `meta-llama/llama-3.3-70b-instruct` |
-| `OBSIDIAN_VAULT_PATH`| Caminho absoluto para o seu Vault no Obsidian. | `C:/Caminho/Para/Seu/Vault` |
-| `CHROMA_PERSIST_DIR` | Diretório de persistência do ChromaDB. | `./data/chroma` |
-| `CORS_ORIGIN` | URL do frontend permitida (CORS). | `http://localhost:3000` |
+Variáveis de ambiente (`backend/.env`):
 
-### Backend
+| Variável | Descrição |
+|---|---|
+| `GOOGLE_API_KEY` | Chave de API do Google AI Studio |
+| `LLM_MODEL` | Modelo a usar (padrão: `gemini-3.5-flash`) |
+| `OBSIDIAN_VAULT_PATH` | Caminho absoluto para o seu Vault |
+| `CHROMA_PERSIST_DIR` | Diretório de persistência do ChromaDB |
+| `CORS_ORIGIN` | URL do frontend (padrão: `http://localhost:3000`) |
 
-1. Entre na pasta do backend:
-   ```bash
-   cd backend
-   ```
-2. Instale as dependências usando `pip`:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Inicie a API com Uvicorn (ela vai rodar na porta 8000 por padrão):
-   ```bash
-   fastapi run main.py
-   ```
+### Rodando com Electron (recomendado)
 
-### Frontend
+```bash
+cd electron
+npm install
+.\node_modules\electron\dist\electron.exe .
+```
 
-1. Entre na pasta do frontend:
-   ```bash
-   cd frontend
-   ```
-2. Instale as dependências via `pnpm`:
-   ```bash
-   pnpm install
-   ```
-3. Inicie o servidor de desenvolvimento:
-   ```bash
-   pnpm dev
-   ```
+O Electron sobe o backend (porta 8000) e o frontend (porta 3000) automaticamente.
 
-Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o aplicativo em funcionamento.
+### Rodando manualmente
+
+**Backend:**
+```bash
+cd backend
+python -m uvicorn main:app --reload --port 8000
+```
+
+**Frontend:**
+```bash
+cd frontend
+pnpm install
+pnpm dev
+```
+
+Acesse [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Endpoints da API
+
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `GET` | `/health` | Status do servidor |
+| `POST` | `/chat/stream` | Chat com streaming SSE |
+| `POST` | `/vault/sync` | Indexa o vault e inicia watcher |
+| `GET` | `/vault/status` | Status da indexação |
+| `GET` | `/chat/conversations` | Lista histórico de conversas |
