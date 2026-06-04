@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "../Icon";
 import { streamChat, type NoteReference, type ChatMessage } from "../../lib/api";
 
@@ -43,17 +43,20 @@ const SCOPES = [
 
 /** Renders assistant text, turning [[Nota]] citations into styled chips. */
 function renderContent(text: string) {
+  if (!text.includes("[[")) {
+    return text;
+  }
   const parts = text.split(/(\[\[[^\]]+\]\])/g);
   return parts.map((part, i) => {
-    const m = part.match(/^\[\[([^\]]+)\]\]$/);
-    if (m) {
+    if (part.startsWith("[[") && part.endsWith("]]")) {
+      const nota = part.slice(2, -2);
       return (
         <span
           key={i}
           className="inline-flex items-center gap-1 align-baseline font-ui text-[13px] font-medium text-on-primary-container bg-primary-container rounded-md px-1.5 py-0.5 mx-0.5"
         >
           <Icon name="doc" size={12} />
-          {m[1]}
+          {nota}
         </span>
       );
     }
@@ -68,6 +71,58 @@ function Avatar() {
     </div>
   );
 }
+
+const MessageItem = React.memo(({ m }: { m: Msg }) => {
+  if (m.role === "user") {
+    return (
+      <div className="flex justify-end">
+        <div className="bg-container-high text-on-surface rounded-md px-5 py-3 max-w-[78%] font-body text-[16px] leading-relaxed">
+          {m.content}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex gap-4">
+      <Avatar />
+      <div className="flex-1 min-w-0 pt-1">
+        <div className="font-label text-[11px] tracking-[0.12em] uppercase text-outline mb-1.5">
+          VaultMind
+        </div>
+        {m.streaming && !m.content ? (
+          <div className="flex items-center gap-1.5 h-9">
+            <span className="dot" />
+            <span className="dot" />
+            <span className="dot" />
+          </div>
+        ) : (
+          <div className="font-body text-[16.5px] leading-[1.7] text-on-surface whitespace-pre-wrap">
+            {renderContent(m.content)}
+          </div>
+        )}
+
+        {m.references && m.references.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {m.references.map((ref) => (
+              <span
+                key={ref.path}
+                title={`${(ref.score * 100).toFixed(0)}% relevante`}
+                className="inline-flex items-center gap-1.5 bg-container-low border border-outline-variant/70 rounded-full pl-2 pr-3 py-1 font-ui text-[12.5px] text-on-surface-variant"
+              >
+                <span className="w-5 h-5 rounded-full bg-primary-container text-primary grid place-items-center">
+                  <Icon name="doc" size={11} />
+                </span>
+                {ref.title}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+});
+MessageItem.displayName = "MessageItem";
 
 export function ChatView({ onOpenSidebar }: { onOpenSidebar: () => void }) {
   const [messages, setMessages] = useState<Msg[]>([]);
@@ -114,40 +169,58 @@ export function ChatView({ onOpenSidebar }: { onOpenSidebar: () => void }) {
         onMeta: ({ conversation_id, references }) => {
           setConversationId(conversation_id);
           setMessages((prev) => {
+            if (prev.length === 0) return prev;
             const next = [...prev];
-            const last = next[next.length - 1];
-            if (last?.role === "assistant") last.references = references;
+            const lastIdx = next.length - 1;
+            const last = { ...next[lastIdx] };
+            if (last.role === "assistant") {
+              last.references = references;
+            }
+            next[lastIdx] = last;
             return next;
           });
         },
         onChunk: (chunk) => {
           setMessages((prev) => {
+            if (prev.length === 0) return prev;
             const next = [...prev];
-            const last = next[next.length - 1];
-            if (last?.role === "assistant") last.content += chunk;
+            const lastIdx = next.length - 1;
+            const last = { ...next[lastIdx] };
+            if (last.role === "assistant") {
+              last.content += chunk;
+            }
+            next[lastIdx] = last;
             return next;
           });
           scrollDown();
         },
         onDone: () => {
           setMessages((prev) => {
+            if (prev.length === 0) return prev;
             const next = [...prev];
-            const last = next[next.length - 1];
-            if (last?.role === "assistant") last.streaming = false;
+            const lastIdx = next.length - 1;
+            const last = { ...next[lastIdx] };
+            if (last.role === "assistant") {
+              last.streaming = false;
+            }
+            next[lastIdx] = last;
             return next;
           });
           setBusy(false);
         },
         onError: (err) => {
           setMessages((prev) => {
+            if (prev.length === 0) return prev;
             const next = [...prev];
-            const last = next[next.length - 1];
-            if (last?.role === "assistant") {
+            const lastIdx = next.length - 1;
+            const last = { ...next[lastIdx] };
+            if (last.role === "assistant") {
               last.streaming = false;
               last.content =
                 last.content ||
                 `⚠️ Não consegui falar com o backend (${err.message}). Confira se o servidor está rodando em :8000.`;
             }
+            next[lastIdx] = last;
             return next;
           });
           setBusy(false);
@@ -237,52 +310,9 @@ export function ChatView({ onOpenSidebar }: { onOpenSidebar: () => void }) {
             </section>
           ) : (
             <section className="conv-in flex-1 w-full py-6 space-y-7">
-              {messages.map((m, i) =>
-                m.role === "user" ? (
-                  <div key={i} className="flex justify-end">
-                    <div className="bg-container-high text-on-surface rounded-md px-5 py-3 max-w-[78%] font-body text-[16px] leading-relaxed">
-                      {m.content}
-                    </div>
-                  </div>
-                ) : (
-                  <div key={i} className="flex gap-4">
-                    <Avatar />
-                    <div className="flex-1 min-w-0 pt-1">
-                      <div className="font-label text-[11px] tracking-[0.12em] uppercase text-outline mb-1.5">
-                        VaultMind
-                      </div>
-                      {m.streaming && !m.content ? (
-                        <div className="flex items-center gap-1.5 h-9">
-                          <span className="dot" />
-                          <span className="dot" />
-                          <span className="dot" />
-                        </div>
-                      ) : (
-                        <div className="font-body text-[16.5px] leading-[1.7] text-on-surface whitespace-pre-wrap">
-                          {renderContent(m.content)}
-                        </div>
-                      )}
-
-                      {m.references && m.references.length > 0 && (
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {m.references.map((ref) => (
-                            <span
-                              key={ref.path}
-                              title={`${(ref.score * 100).toFixed(0)}% relevante`}
-                              className="inline-flex items-center gap-1.5 bg-container-low border border-outline-variant/70 rounded-full pl-2 pr-3 py-1 font-ui text-[12.5px] text-on-surface-variant"
-                            >
-                              <span className="w-5 h-5 rounded-full bg-primary-container text-primary grid place-items-center">
-                                <Icon name="doc" size={11} />
-                              </span>
-                              {ref.title}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )
-              )}
+              {messages.map((m, i) => (
+                <MessageItem key={i} m={m} />
+              ))}
             </section>
           )}
         </div>
