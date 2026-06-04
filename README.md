@@ -4,6 +4,8 @@
 
 O **VaultMind** é um aplicativo que conecta suas notas do Obsidian a uma inteligência artificial que entende seu contexto. Usando um backend FastAPI com ChromaDB e um frontend rápido em Next.js, o VaultMind permite buscar, conversar e explorar os seus próprios arquivos.
 
+<img width="1381" height="832" alt="image" src="https://github.com/user-attachments/assets/0c0f06b2-5a87-4086-9e92-c0d39bdda678" />
+
 ---
 
 ## Funcionalidades
