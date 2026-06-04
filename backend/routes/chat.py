@@ -1,8 +1,8 @@
 import re
 import os
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import StreamingResponse
-from models.schemas import ChatRequest, ChatResponse, NoteReference
+from models.schemas import ChatRequest
 import json
 
 router = APIRouter(prefix="/chat", tags=["chat"])
@@ -36,8 +36,11 @@ async def chat_stream(req: ChatRequest, request: Request):
     watcher = request.app.state.watcher
 
     # Get or create conversation
-    cid = req.conversation_id or memory.new_conversation()
-    history = memory.load(cid)
+    try:
+        cid = req.conversation_id or memory.new_conversation()
+        history = memory.load(cid)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     # RAG: retrieve relevant notes
     references = vs.search(req.message, top_k=5)
@@ -81,5 +84,8 @@ async def list_conversations(request: Request):
 @router.get("/conversations/{conversation_id}")
 async def get_conversation(conversation_id: str, request: Request):
     memory = request.app.state.memory
-    history = memory.load(conversation_id)
+    try:
+        history = memory.load(conversation_id)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     return {"id": conversation_id, "history": history}

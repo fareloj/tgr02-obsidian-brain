@@ -1,0 +1,4 @@
+## 2024-06-04 - Path Traversal in Conversation Memory Service
+**Vulnerability:** A critical path traversal vulnerability was found in `backend/services/memory.py`, where `conversation_id`s were directly concatenated to the `MEMORY_DIR` path without validation. This allowed an attacker to retrieve or overwrite arbitrary files via endpoints like `/chat/conversations/../../../etc/passwd`.
+**Learning:** File paths derived from user input (like a `conversation_id` parameter or cookie) should never be trusted implicitly.
+**Prevention:** Always sanitize input used to build paths using functions like `os.path.basename()` and validate that the sanitized input matches the original one (e.g. throwing an error if it doesn't). Also ensure the application layer gracefully handles such validation exceptions (e.g. catching `ValueError` to return a `400 Bad Request` instead of crashing).
