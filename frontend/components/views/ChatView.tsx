@@ -72,6 +72,31 @@ function Avatar() {
   );
 }
 
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Falha ao copiar:", err);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      aria-label="Copiar mensagem"
+      className="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md hover:bg-container-high transition-colors text-on-surface-variant text-[12px] font-label font-medium uppercase tracking-wide"
+    >
+      <Icon name={copied ? "check" : "copy"} size={14} className={copied ? "text-primary" : ""} />
+      <span>{copied ? "Copiado" : "Copiar"}</span>
+    </button>
+  );
+}
+
 const MessageItem = React.memo(({ m }: { m: Msg }) => {
   if (m.role === "user") {
     return (
@@ -116,6 +141,12 @@ const MessageItem = React.memo(({ m }: { m: Msg }) => {
                 {ref.title}
               </span>
             ))}
+          </div>
+        )}
+
+        {!m.streaming && m.content && (
+          <div className="mt-3 flex items-center">
+            <CopyButton text={m.content} />
           </div>
         )}
       </div>
