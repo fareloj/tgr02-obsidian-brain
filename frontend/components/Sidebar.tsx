@@ -49,6 +49,7 @@ export function Sidebar({ active, onNavigate, onNewChat, open, onClose }: Sideba
           </div>
           <button
             onClick={onClose}
+            aria-label="Fechar menu"
             className="md:hidden ml-auto w-8 h-8 grid place-items-center rounded-full text-on-surface-variant hover:bg-container-high"
           >
             <Icon name="close" size={18} />
@@ -93,7 +94,7 @@ export function Sidebar({ active, onNavigate, onNewChat, open, onClose }: Sideba
           <span className="font-label text-[10.5px] tracking-[0.16em] uppercase text-outline">
             Recentes
           </span>
-          <button className="text-outline hover:text-on-surface transition-colors">
+          <button aria-label="Mais opções recentes" className="text-outline hover:text-on-surface transition-colors">
             <Icon name="more" size={16} />
           </button>
         </div>

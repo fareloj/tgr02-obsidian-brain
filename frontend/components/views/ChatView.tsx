@@ -235,6 +235,7 @@ export function ChatView({ onOpenSidebar }: { onOpenSidebar: () => void }) {
       <header className="h-16 flex-shrink-0 flex items-center gap-3 px-4 md:px-8">
         <button
           onClick={onOpenSidebar}
+          aria-label="Abrir menu"
           className="md:hidden w-10 h-10 grid place-items-center rounded-full text-on-surface-variant hover:bg-container-high"
         >
           <Icon name="menu" size={22} />
@@ -246,10 +247,10 @@ export function ChatView({ onOpenSidebar }: { onOpenSidebar: () => void }) {
           </span>
         </div>
         <div className="ml-auto flex items-center gap-1">
-          <button className="w-10 h-10 grid place-items-center rounded-full text-on-surface-variant hover:bg-container-high transition-colors" title="Histórico">
+          <button aria-label="Histórico" className="w-10 h-10 grid place-items-center rounded-full text-on-surface-variant hover:bg-container-high transition-colors" title="Histórico">
             <Icon name="history" size={20} />
           </button>
-          <button className="w-10 h-10 grid place-items-center rounded-full text-on-surface-variant hover:bg-container-high transition-colors" title="Ajuda">
+          <button aria-label="Ajuda" className="w-10 h-10 grid place-items-center rounded-full text-on-surface-variant hover:bg-container-high transition-colors" title="Ajuda">
             <Icon name="help" size={20} />
           </button>
         </div>
@@ -395,12 +396,13 @@ export function ChatView({ onOpenSidebar }: { onOpenSidebar: () => void }) {
               </button>
 
               <div className="ml-auto flex items-center gap-1.5">
-                <button className="w-9 h-9 grid place-items-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-container-high transition-colors" title="Voz">
+                <button aria-label="Voz" className="w-9 h-9 grid place-items-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-container-high transition-colors" title="Voz">
                   <Icon name="mic" size={19} />
                 </button>
                 <button
                   onClick={send}
                   disabled={!input.trim() || busy}
+                  aria-label="Enviar"
                   className="w-10 h-10 grid place-items-center rounded-full bg-primary text-on-primary hover:bg-primary-hover transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   title="Enviar"
                 >
