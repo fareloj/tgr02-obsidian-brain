@@ -6,7 +6,7 @@ O **VaultMind** é um aplicativo que conecta suas notas do Obsidian a uma inteli
 
 ---
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 - **Integração com Obsidian:** Monitora e indexa seu Vault do Obsidian automaticamente.
 - **Chat Contextual:** Converse com o modelo sobre as suas anotações com respostas baseadas nos seus próprios dados.
@@ -15,7 +15,7 @@ O **VaultMind** é um aplicativo que conecta suas notas do Obsidian a uma inteli
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Framework:** Next.js 16 (React 19)
@@ -31,7 +31,7 @@ O **VaultMind** é um aplicativo que conecta suas notas do Obsidian a uma inteli
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 Siga as instruções abaixo para configurar o ambiente de desenvolvimento na sua máquina.
 
@@ -40,7 +40,7 @@ Siga as instruções abaixo para configurar o ambiente de desenvolvimento na sua
 - [pnpm](https://pnpm.io/) (v9+)
 - [Python](https://www.python.org/) (v3.10+)
 
-### ⚙️ Configuração (Variáveis de Ambiente)
+### Configuração (Variáveis de Ambiente)
 
 No diretório `backend`, crie um arquivo `.env` baseando-se no `.env.example`:
 
@@ -53,7 +53,7 @@ No diretório `backend`, crie um arquivo `.env` baseando-se no `.env.example`:
 | `CHROMA_PERSIST_DIR` | Diretório de persistência do ChromaDB. | `./data/chroma` |
 | `CORS_ORIGIN` | URL do frontend permitida (CORS). | `http://localhost:3000` |
 
-### 🖥️ Backend
+### Backend
 
 1. Entre na pasta do backend:
    ```bash
@@ -68,7 +68,7 @@ No diretório `backend`, crie um arquivo `.env` baseando-se no `.env.example`:
    fastapi run main.py
    ```
 
-### 🎨 Frontend
+### Frontend
 
 1. Entre na pasta do frontend:
    ```bash
