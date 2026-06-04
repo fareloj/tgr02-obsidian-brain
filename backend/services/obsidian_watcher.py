@@ -2,7 +2,7 @@ import os
 import logging
 from pathlib import Path
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileModifiedEvent, FileCreatedEvent, FileDeletedEvent
+from watchdog.events import FileSystemEventHandler
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +84,7 @@ class VaultWatcher:
                     fpath = os.path.join(root, fname)
                     try:
                         title, content = read_note(fpath)
-                        chunks = self.vs.index_note(fpath, title, content)
+                        self.vs.index_note(fpath, title, content)
                         total += 1
                     except Exception as e:
                         logger.error(f"Error indexing {fpath}: {e}")

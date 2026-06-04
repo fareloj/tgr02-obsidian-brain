@@ -7,7 +7,6 @@ router = APIRouter(prefix="/vault", tags=["vault"])
 
 @router.post("/sync")
 async def sync_vault(req: SyncRequest, request: Request):
-    vs = request.app.state.vector_store
     watcher = request.app.state.watcher
 
     if not os.path.exists(req.vault_path):

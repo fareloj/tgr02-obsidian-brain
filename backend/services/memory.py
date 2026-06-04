@@ -13,7 +13,10 @@ class ConversationMemory:
         os.makedirs(MEMORY_DIR, exist_ok=True)
 
     def _path(self, conversation_id: str) -> str:
-        return os.path.join(MEMORY_DIR, f"{conversation_id}.json")
+        safe_id = os.path.basename(conversation_id)
+        if not safe_id or safe_id != conversation_id or ".." in conversation_id:
+            raise ValueError("Invalid conversation ID")
+        return os.path.join(MEMORY_DIR, f"{safe_id}.json")
 
     def new_conversation(self) -> str:
         cid = str(uuid.uuid4())[:8]
