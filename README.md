@@ -23,10 +23,7 @@ O **VaultMind** é um aplicativo desktop que conecta suas notas do Obsidian a um
 
 | Explorar Vault | Notas Recentes | Projetos |
 |:-:|:-:|:-:|
-| ![Chat](<img width="1381" height="832" alt="image" src="https://github.com/user-attachments/assets/f87feb11-4dcf-4917-8a0e-adb911b6cf84" />
-) | ![Notas](<img width="1381" height="833" alt="image" src="https://github.com/user-attachments/assets/39fc23e5-93ab-41d5-be1b-946bed163e83" />
-) | ![Projetos](<img width="1380" height="832" alt="image" src="https://github.com/user-attachments/assets/b6c0cb8a-4f95-490c-b8bf-e62c20546dc2" />
-) |
+| ![Explorar Vault](https://github.com/user-attachments/assets/f87feb11-4dcf-4917-8a0e-adb911b6cf84) | ![Notas Recentes](https://github.com/user-attachments/assets/39fc23e5-93ab-41d5-be1b-946bed163e83) | ![Projetos](https://github.com/user-attachments/assets/b6c0cb8a-4f95-490c-b8bf-e62c20546dc2) |
 
 ---
 
