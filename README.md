@@ -1,5 +1,5 @@
 # VaultMind
-
+ **PROJETO DESCONTINUADO / DEPRECATED PROJECT**
 > Seu segundo cérebro inteligente, conectado ao seu Obsidian.
 
 O **VaultMind** é um aplicativo desktop que conecta suas notas do Obsidian a uma inteligência artificial que entende seu contexto. Usando um backend FastAPI com ChromaDB e um frontend em Next.js empacotado com Electron, o VaultMind permite buscar, conversar e explorar os seus próprios arquivos — tudo rodando localmente.
